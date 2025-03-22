@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator using JavaScript</title>
+    <style>
+        body {
+            background-color: #282c34; /* Dark background for the body */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full height of the viewport */
+            margin: 0; /* Remove default margin */
+            font-family: Arial, sans-serif; /* Font style */
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .calculator {
+            background-color: #3b3f47; /* Dark background for the calculator */
+            padding: 20px;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Shadow effect */
+            transition: background-color 0.3s; /* Smooth transition for background color */
+        }
+
+        .display {
+            display: flex;
+            justify-content: flex-end; /* Align text to the right */
+            margin-bottom: 20px; /* Space below the display */
+        }
+
+        input[type="text"] {
+            width: 100%; /* Full width */
+            height: 40px; /* Height of the display */
+            font-size: 24px; /* Font size */
+            text-align: right; /* Align text to the right */
+            padding: 5px; /* Padding inside the display */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #3b3f47; /* Background color */
+            color: white; /* Text color */
+        }
+
+        .buttons {
+            display: grid; /* Use grid layout for buttons */
+            grid-template-columns: repeat(4, 1fr); /* Four columns */
+            gap: 10px; /* Space between buttons */
+        }
+
+        .button {
+            height: 60px; /* Height of buttons */
+            font-size: 20px; /* Font size */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners */
+            background-color: #4a4e57; /* Button background color */
+            color: white; /* Button text color */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+        }
+
+        .button:hover {
+            background-color: #5a5e67; /* Darker background on hover */
+        }
+
+        .operator {
+            background-color: #ff8c00; /* Operator button color */
+        }
+
+        .operator:hover {
+            background-color: #ffa500; /* Darker operator button on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator" id="calculator">
+            <div class="display">
+                <input type="text" name="display" id="display" disabled>
+            </div>
+            <div class="buttons">
+                <button class="button" value="AC">AC</button>
+                <button class="button" value="D">D</button>
+                <button class="button" value=".">.</button>
+                <button class="button" value="/">/</button>
+                <button class="button" value="7">7</button>
+                <button class="button" value="8">8</button>
+                <button class="button" value="9">9</button>
+                <button class="button" value="*">*</button>
+                <button class="button" value="4">4</button>
+                <button class="button" value="5">5</button>
+                <button class="button" value="6">6</button>
+                <button class="button" value="-">-</button>
+                <button class="button" value="1">1</button>
+                <button class="button" value="2">2</button>
+                <button class="button" value="3">3</button>
+                <button class="button" value="+">+</button>
+                <button class="button" value="0">0</button>
+                <button class="button" value="00">00</button>
+                <button class="button" value="=">=</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function appendToDisplay(value) {
+            document.getElementById('display').value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById('display').value = '';
+            document.getElementById('calculator').style.backgroundColor = '#3b3f47'; // Reset background color
+        }
+
+        function deleteLast() {
+            let display = document.getElementById('display').value;
+            document.getElementById('display').value = display.slice(0, -1);
+        }
+
+        function calculate() {
+            let display = document.getElementById('display').value;
+            try {
+                let result = eval(display);
+                document.getElementById('display').value = result;
+
+                // Change background color based on the result
+                if (result < 0) {
+                    document.getElementById('calculator').style.backgroundColor = '#ff6961'; // Red background for negative result
+                } else {
+                    document.getElementById('calculator').style.backgroundColor = '#87ceeb'; // Blue background for positive result
+                }
+            } catch (error) {
+                document.getElementById('display').value = 'Error';
+            }
+        }
+
+        // Add event listeners to the buttons
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('click', () => {
+                let value = button.value;
+                switch (value) {
+                    case 'AC':
+                        clearDisplay();
+                        break;
+                    case 'D':
+                        deleteLast();
+                        break;
+                    case '=':
+                        calculate();
+                        break;
+                    default:
+                        appendToDisplay(value);
+                        break;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
